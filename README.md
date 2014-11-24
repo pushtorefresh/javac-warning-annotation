@@ -27,3 +27,21 @@ A: About 3kb, only two classes: @Warning annotation and annotation processor.
     public void someCodeWhichYouNeedAtTheMomentButYouWantToRefactorItLater() {
         // bad stuff going on here...
     }
+
+
+Notice, if you use another annotation processors — you may need to exclude 
+    
+    'META-INF/services/javax.annotation.processing.Processor'
+    
+For Android Gradle setup in can be done like that:
+
+    build.gradle:
+    
+    android {
+        
+        // ...
+        
+        packagingOptions {
+            exclude 'META-INF/services/javax.annotation.processing.Processor'
+        }
+    }
