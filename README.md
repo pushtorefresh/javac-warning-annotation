@@ -2,17 +2,17 @@
 
 FAQ:
 
-Q: ***What @Warning annotation is for?***
+Q: ***What is @Warning annotation for?***
 
-A: For throwing warning messages from javac.
+A: For throwing warning messages from java compiler (javac).
 
-Q: ***When I can use it?***
+Q: ***When and why can you use it?***
 
-A: When you want to mark some piece of code as "dangerous" or "unstable", etc.
+A: When you want to mark some piece of code as "dangerous" or "unstable", etc. (Don't do it often)
 
-Q: ***Why not // TODO or FIXME, etc?*** 
+Q: ***Why not to use // TODO or FIXME comments, etc?*** 
 
-A: Because they don't throw compile time warnings by default
+A: Because they don't throw compile time warnings by default (depends on IDE, settings, etc.)
 
 Q: ***What is the size of the library?*** 
 
