@@ -1,8 +1,113 @@
 apply plugin: 'java'
+apply plugin: 'maven'
+apply plugin: 'signing'
 
 tasks.withType(JavaCompile) {
     sourceCompatibility = '1.6'
     targetCompatibility = '1.6'
 }
 
-version '1.0'
+version '1.0.0'
+
+def isReleaseBuild() {
+    return !version.contains("SNAPSHOT")
+}
+
+def getPropertyOrEmptyString(String propertyName) {
+    return project.hasProperty(propertyName) ? project.ext[propertyName] : ''
+}
+
+def getReleaseRepositoryUrl() {
+    return getPropertyOrEmptyString('releaseRepositoryUrl')
+}
+
+def getReleaseRepositoryUsername() {
+    return getPropertyOrEmptyString('releaseRepositoryUsername')
+}
+
+def getReleaseRepositoryPassword() {
+    return getPropertyOrEmptyString('releaseRepositoryPassword')
+}
+
+def getSnapshotRepositoryUrl() {
+    return getPropertyOrEmptyString('snapshotRepositoryUrl')
+}
+
+def getSnapshotRepositoryUsername() {
+    return getPropertyOrEmptyString('snapshotRepositoryUsername')
+}
+
+def getSnapshotRepositoryPassword() {
+    return getPropertyOrEmptyString('snapshotRepositoryPassword')
+}
+
+afterEvaluate { project ->
+    uploadArchives {
+        repositories {
+            mavenDeployer {
+                beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+                pom.groupId = 'com.pushtorefresh'
+                pom.artifactId = 'javac-warning-annotation'
+                pom.version = project.version
+
+                repository(url: getReleaseRepositoryUrl()) {
+                    authentication(userName: getReleaseRepositoryUsername(), password: getReleaseRepositoryPassword())
+                }
+
+                snapshotRepository(url: getSnapshotRepositoryUrl()) {
+                    authentication(userName: getSnapshotRepositoryUsername(), password: getSnapshotRepositoryPassword())
+                }
+
+                pom.project {
+                    name 'Javac warning annotation'
+                    description 'Lightweight Java compiler @Warning annotation'
+
+                    url 'https://github.com/pushtorefresh/javac-warning-annotation'
+                    packaging 'jar'
+
+                    scm {
+                        url 'https://github.com/pushtorefresh/javac-warning-annotation'
+                        connection 'git@github.com:pushtorefresh/javac-warning-annotation.git'
+                        developerConnection 'git@github.com:pushtorefresh/javac-warning-annotation.git'
+                    }
+
+                    licenses {
+                        license {
+                            name 'The Apache Software License, Version 2.0'
+                            url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                            distribution 'repo'
+                        }
+                    }
+
+                    developers {
+                        developer {
+                            id 'artem-zinnatullin'
+                            name 'Artem Zinnatullin'
+                            email 'artem.zinnatullin@gmail.com'
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+task javadocJar(type: Jar) {
+    classifier = 'javadoc'
+    from javadoc
+}
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives javadocJar, sourcesJar
+}
+
+signing {
+    required { isReleaseBuild() && gradle.taskGraph.hasTask("uploadArchives") }
+    sign configurations.archives
+}
