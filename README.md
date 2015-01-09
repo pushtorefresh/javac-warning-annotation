@@ -2,32 +2,56 @@
 
 FAQ:
 
-Q: ***What @Warning annotation is for?***
+Q: ***What is @Warning annotation for?***
 
-A: For throwing warning messages from javac.
+A: For throwing warning messages from java compiler (javac).
 
-Q: ***When I can use it?***
+Q: ***When and why can you use it?***
 
-A: When you want to mark some piece of code as "dangerous" or "unstable", etc.
+A: When you want to mark some piece of code as "dangerous" or "unstable", etc. (Don't do it often)
 
-Q: ***Why not // TODO or FIXME, etc?*** 
+Q: ***Why not to use // TODO or FIXME comments, etc?*** 
 
-A: Because they don't throw compile time warnings by default
+A: Because they don't throw compile time warnings by default (depends on IDE, settings, etc.)
 
 Q: ***What is the size of the library?*** 
 
 A: About 3kb, only two classes: @Warning annotation and annotation processor.
 
 ------------------------------
-**Usage is very very simple:**
+**Usage:**
 
+```java
     // some code...
     
     @Warning("This method should be refactored")
     public void someCodeWhichYouNeedAtTheMomentButYouWantToRefactorItLater() {
         // bad stuff going on here...
     }
+```
 
+###Download
+
+Gradle:
+
+```groovy
+compile 'com.pushtorefresh:javac-warning-annotation:1.0.0'
+```
+    // Library doesn't bring anything to the runtime
+    // So you can use provided scope instead of compile 
+
+Maven:
+```xml
+<dependency>
+  <groupId>com.pushtorefresh</groupId>
+  <artifactId>javac-warning-annotation</artifactId>
+  <version>1.0.0</version>
+</dependency>
+```
+
+Or grab jar directly from [mavenCentral](https://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22com.pushtorefresh%22%20AND%20a%3A%22javac-warning-annotation%22)
+
+------------------------------
 
 Notice, if you use another annotation processors — you may need to exclude 
     
@@ -35,8 +59,8 @@ Notice, if you use another annotation processors — you may need to exclude
     
 For Android Gradle setup in can be done like that:
 
-    build.gradle:
-    
+build.gradle:
+```groovy    
     android {
         
         // ...
@@ -45,3 +69,4 @@ For Android Gradle setup in can be done like that:
             exclude 'META-INF/services/javax.annotation.processing.Processor'
         }
     }
+```
