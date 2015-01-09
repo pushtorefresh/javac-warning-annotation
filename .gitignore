@@ -12,6 +12,7 @@ target/
 
 # Local configuration file (sdk path, etc)
 local.properties
+custom_env.gradle
 
 # Eclipse project files
 .classpath
