@@ -24,7 +24,7 @@ A: About 3kb, only two classes: @Warning annotation and annotation processor.
 ```java
     // some code...
     
-    @Warning("This method should be refactored")
+    @Warning("Refactor as soon as possible")
     public void someCodeWhichYouNeedAtTheMomentButYouWantToRefactorItLater() {
         // bad stuff going on here...
     }
