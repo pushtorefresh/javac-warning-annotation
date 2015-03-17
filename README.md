@@ -16,7 +16,7 @@ A: Because they don't throw compile time warnings by default (depends on IDE, se
 
 Q: ***What is the size of the library?*** 
 
-A: About 3kb, only two classes: @Warning annotation and annotation processor.
+A: About 3kb, nothing for runtime, only two classes: @Warning annotation and annotation processor.
 
 ------------------------------
 **Usage:**
@@ -24,8 +24,8 @@ A: About 3kb, only two classes: @Warning annotation and annotation processor.
 ```java
     // some code...
     
-    @Warning("Refactor as soon as possible")
-    public void someCodeWhichYouNeedAtTheMomentButYouWantToRefactorItLater() {
+    @Warning("Add caching")
+    public void getData() {
         // bad stuff going on here...
     }
 ```
@@ -35,10 +35,11 @@ A: About 3kb, only two classes: @Warning annotation and annotation processor.
 Gradle:
 
 ```groovy
-compile 'com.pushtorefresh:javac-warning-annotation:1.0.0'
+provided 'com.pushtorefresh:javac-warning-annotation:1.0.0'
+
+// Library doesn't bring anything to the runtime
+// So you can use provided scope instead of compile 
 ```
-    // Library doesn't bring anything to the runtime
-    // So you can use provided scope instead of compile 
 
 Maven:
 ```xml
